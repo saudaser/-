@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مجموعة أدوات الرسم الاحترافية | Premium Art Supplies</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f4e4a6;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --gray: #1a1a1a;
+            --light-gray: #2a2a2a;
+            --text: #e0e0e0;
+            --accent: #00d4ff;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--darker);
+            color: var(--text);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* ===== LOADING SCREEN ===== */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--darker);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-brush {
+            width: 60px;
+            height: 60px;
+            border: 3px solid transparent;
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        .loader-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--gold);
+            letter-spacing: 5px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.4s ease;
+            background: transparent;
+        }
+
+        .navbar.scrolled {
+            background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 15px 60px;
+            box-shadow: 0 2px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--gold);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: white;
+            font-weight: 300;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 2px;
+            background: var(--gold);
+            transition: all 0.3s ease;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
+                var(--darker);
+        }
+
+        .hero-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float-particle 6s ease-in-out infinite;
+        }
+
+        @keyframes float-particle {
+            0% { opacity: 0; transform: translateY(100vh) scale(0); }
+            50% { opacity: 0.6; }
+            100% { opacity: 0; transform: translateY(-100px) scale(1); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            padding: 0 20px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 30px;
+            border: 1px solid var(--gold);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            letter-spacing: 4px;
+            color: var(--gold);
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease 0.3s both;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease 0.5s both;
+        }
+
+        .hero-title .highlight {
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: #888;
+            font-weight: 300;
+            margin-bottom: 50px;
+            animation: fadeInUp 1s ease 0.7s both;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            gap: 20px;
+            animation: fadeInUp 1s ease 0.9s both;
+        }
+
+        .btn-primary {
+            padding: 16px 45px;
+            background: linear-gradient(135deg, var(--gold), #b8960c);
+            color: var(--dark);
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            letter-spacing: 1px;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-secondary {
+            padding: 16px 45px;
+            background: transparent;
+            color: var(--text);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            letter-spacing: 1px;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: translateY(-3px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            animation: fadeInUp 1s ease 1.2s both;
+        }
+
+        .scroll-indicator span {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            color: #666;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            animation: scrollDown 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollDown {
+            0%, 100% { transform: scaleY(0); transform-origin: top; }
+            50% { transform: scaleY(1); transform-origin: top; }
+            51% { transform-origin: bottom; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== SECTION STYLES ===== */
+        .section {
+            padding: 120px 60px;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+
+        .section-title .highlight {
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-desc {
+            font-size: 1.1rem;
+            color: #777;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            margin: 20px auto;
+            border-radius: 10px;
+        }
+
+        /* ===== FEATURED PRODUCT ===== */
+        .featured {
+            background: var(--dark);
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .featured-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .featured-image img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            border-radius: 20px;
+            transition: transform 0.6s ease;
+        }
+
+        .featured-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .featured-image::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, var(--gold), transparent, var(--accent));
+            border-radius: 22px;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: var(--dark);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .featured-info {
+            padding: 20px;
+        }
+
+        .featured-info .label {
+            color: var(--gold);
+            font-size: 0.85rem;
+            letter-spacing: 4px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .featured-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .featured-info p {
+            color: #888;
+            font-size: 1.05rem;
+            line-height: 1.9;
+            margin-bottom: 30px;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1rem;
+            color: #aaa;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .feature-list li .icon {
+            width: 35px;
+            height: 35px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        /* ===== PRODUCTS GRID ===== */
+        .products-section {
+            background: var(--darker);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--gray);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            border-color: rgba(212, 175, 55, 0.2);
+        }
+
+        .product-card-image {
+            position: relative;
+            height: 350px;
+            overflow: hidden;
+        }
+
+        .product-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .product-card:hover .product-card-image img {
+            transform: scale(1.1);
+        }
+
+        .product-card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .product-card:hover .product-card-overlay {
+            opacity: 1;
+        }
+
+        .product-tag {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(212, 175, 55, 0.9);
+            color: var(--dark);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .product-card-body {
+            padding: 30px;
+        }
+
+        .product-category {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .product-card-body h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .product-card-body p {
+            color: #777;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .product-specs {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .spec-tag {
+            padding: 6px 14px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: #999;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        /* ===== GALLERY SECTION ===== */
+        .gallery-section {
+            background: var(--dark);
+            padding: 120px 0;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 300px);
+            gap: 15px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 60px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .gallery-item:nth-child(1) {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+            display: flex;
+            align-items: flex-end;
+            padding: 25px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .gallery-item:hover .gallery-item-overlay {
+            opacity: 1;
+        }
+
+        .gallery-item-overlay span {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        /* ===== CATEGORIES SECTION ===== */
+        .categories-section {
+            background: var(--darker);
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .category-card {
+            background: var(--gray);
+            border-radius: 20px;
+            padding: 50px 40px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--accent));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .category-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(212, 175, 55, 0.15);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .category-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .category-card p {
+            color: #777;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* ===== STATS SECTION ===== */
+        .stats-section {
+            background: linear-gradient(135deg, var(--gray), var(--dark));
+            padding: 80px 60px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 30px;
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        .testimonials-section {
+            background: var(--darker);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: var(--gray);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.4s ease;
+        }
+
+        .testimonial-card:hover {
+            border-color: rgba(212, 175, 55, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .testimonial-stars {
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+
+        .testimonial-text {
+            color: #aaa;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+
+        .testimonial-name {
+            font-weight: 600;
+            color: white;
+            margin-bottom: 3px;
+        }
+
+        .testimonial-role {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta-section {
+            background: var(--dark);
+            padding: 120px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .cta-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-content p {
+            color: #888;
+            font-size: 1.15rem;
+            margin-bottom: 40px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--darker);
+            padding: 80px 60px 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand .logo {
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .footer-brand p {
+            color: #666;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1rem;
+            margin-bottom: 25px;
+            color: white;
+            letter-spacing: 2px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 30px;
+            text-align: center;
+            color: #444;
+            font-size: 0.85rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .social-link:hover {
+            background: var(--gold);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== LIGHTBOX ===== */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox img {
+            max-width: 85%;
+            max-height: 85vh;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-close:hover {
+            background: var(--gold);
+            color: var(--dark);
+        }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--gold);
+            border: none;
+            border-radius: 50%;
+            color: var(--dark);
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .section { padding: 80px 30px; }
+            .hero-title { font-size: 3.5rem; }
+            .section-title { font-size: 2.5rem; }
+            .featured-grid { grid-template-columns: 1fr; gap: 40px; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
+            .gallery-item:nth-child(1) { grid-column: span 2; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 15px 20px; }
+            .nav-links { 
+                display: none;
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(5,5,5,0.98);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 30px;
+            }
+            .nav-links.active { display: flex; }
+            .menu-toggle { display: flex; }
+            .hero-title { font-size: 2.5rem; }
+            .hero-subtitle { font-size: 1rem; }
+            .hero-cta { flex-direction: column; align-items: center; }
+            .products-grid { grid-template-columns: 1fr; }
+            .categories-grid { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .gallery-item:nth-child(1) { grid-column: span 1; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+            .section-title { font-size: 2rem; }
+            .featured-info h2 { font-size: 2rem; }
+            .cta-content h2 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LOADING SCREEN -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-brush"></div>
+            <div class="loader-text">PREMIUM ART</div>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="logo">ART<span>STUDIO</span></a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">الرئيسية</a></li>
+            <li><a href="#products">المنتجات</a></li>
+            <li><a href="#gallery">المعرض</a></li>
+            <li><a href="#categories">الأقسام</a></li>
+            <li><a href="#contact">تواصل</a></li>
+        </ul>
+        <div class="menu-toggle" id="menuToggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="hero-bg"></div>
+        <div class="hero-particles" id="particles"></div>
+        <div class="hero-content">
+            <div class="hero-badge">✦ مجموعة 2025 الحصرية ✦</div>
+            <h1 class="hero-title">
+                أدوات الرسم<br>
+                <span class="highlight">الاحترافية</span>
+            </h1>
+            <p class="hero-subtitle">اكتشف مجموعتنا المتميزة من ألوان الأكريليك وفرش الرسم عالية الجودة</p>
+            <div class="hero-cta">
+                <a href="#products" class="btn-primary">استكشف المنتجات</a>
+                <a href="#gallery" class="btn-secondary">شاهد المعرض</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>اسحب للأسفل</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- FEATURED PRODUCT -->
+    <section class="section featured" id="featured">
+        <div class="featured-grid">
+            <div class="featured-image reveal">
+                <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800" alt="Paul Rubens Acrylic Paint" 
+                     onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22600%22><rect fill=%22%23111%22 width=%22800%22 height=%22600%22/><text x=%22400%22 y=%22300%22 fill=%22%23d4af37%22 font-size=%2240%22 text-anchor=%22middle%22>Paul Rubens</text></svg>'">
+                <div class="featured-badge">مميز</div>
+            </div>
+            <div class="featured-info reveal">
+                <div class="label">المنتج المميز</div>
+                <h2>طلاء أكريليك<br><span style="color: var(--gold);">Paul Rubens</span></h2>
+                <p>طلاء أكريليك بجودة الفنانين المحترفين، يتميز بتركيبته الغنية وألوانه الزاهية التي تدوم طويلاً. متوفر بحجم 75 مل مع تغطية ممتازة وسهولة في المزج.</p>
+                <ul class="feature-list">
+                    <li>
+                        <span class="icon">✦</span>
+                        جودة احترافية للفنانين
+                    </li>
+                    <li>
+                        <span class="icon">✦</span>
+                        ألوان زاهية وثابتة
+                    </li>
+                    <li>
+                        <span class="icon">✦</span>
+                        تغطية عالية وسهولة المزج
+                    </li>
+                    <li>
+                        <span class="icon"></span>
+                        متوافق مع جميع الأسطح
+                    </li>
+                </ul>
+                <a href="#products" class="btn-primary">عرض التفاصيل</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS SECTION -->
+    <section class="section products-section" id="products">
+        <div class="section-header reveal">
+            <div class="section-label">مجموعتنا</div>
+            <h2 class="section-title">المنتجات <span class="highlight">المتميزة</span></h2>
+            <div class="divider"></div>
+            <p class="section-desc">نقدم لك أفضل أدوات الرسم بأعلى جودة لتمنحك تجربة إبداعية لا مثيل لها</p>
+        </div>
+
+        <div class="products-grid">
+            <!-- Product 1 -->
+            <div class="product-card reveal">
+                <div class="product-card-image">
+                    <img src="https://images.unsplash.com/photo-1596548438137-d51ea5c83ca5?w=600" alt="مجموعة ألوان أكريليك"
+                         onerror="this.parentElement.innerHTML='<div style=&quot;width:100%;height:100%;background:linear-gradient(135deg,%23111,%23222);display:flex;align-items:center;justify-content:center;font-size:4rem&quot;>🎨</div>'">
+                    <div class="product-card-overlay"></div>
+                    <div class="product-tag">مجموعة كاملة</div>
+                </div>
+                <div class="product-card-body">
+                    <div class="product-category">ألوان أكريليك</div>
+                    <h3>مجموعة الألوان المتعددة</h3>
+                    <p>مجموعة متكاملة من ألوان الأكريليك بألوان زاهية ومشبعة، مثالية للفنانين المحترفين والمبتدئين على حد سواء.</p>
+                    <div class="product-specs">
+                        <span class="spec-tag">8 ألوان</span>
+                        <span class="spec-tag">أكريليك</span>
+                        <span class="spec-tag">جودة عالية</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card reveal">
+                <div class="product-card-image">
+                    <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600" alt="طلاء أكريليك أسود"
+                         onerror="this.parentElement.innerHTML='<div style=&quot;width:100%;height:100%;background:linear-gradient(135deg,%23000,%23333);display:flex;align-items:center;justify-content:center;font-size:4rem&quot;>🖤</div>'">
+                    <div class="product-card-overlay"></div>
+                    <div class="product-tag">احترافي</div>
+                </div>
+                <div class="product-card-body">
+                    <div class="product-category">Paul Rubens</div>
+                    <h3>أكريليك أسود - Artist Quality</h3>
+                    <p>طلاء أكريليك أسود كثيف بجودة الفنانين المحترفين من Paul Rubens، بتركيبة متقدمة وثبات لوني استثنائي.</p>
+                    <div class="product-specs">
+                        <span class="spec-tag">75ml</span>
+                        <span class="spec-tag">Artist Quality</span>
+                        <span class="spec-tag">أسود</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card reveal">
+                <div class="product-card-image">
+                    <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=600" alt="طلاء أكريليك فاخر"
+                         onerror="this.parentElement.innerHTML='<div style=&quot;width:100%;height:100%;background:linear-gradient(135deg,%23111,%23d4af37);display:flex;align-items:center;justify-content:center;font-size:4rem&quot;>✨</div>'">
+                    <div class="product-card-overlay"></div>
+                    <div class="product-tag">فاخر</div>
+                </div>
+                <div class="product-card-body">
+                    <div class="product-category">Premium</div>
+                    <h3>أكريليك فاخر بتصميم أنيق</h3>
+                    <p>أنبوب طلاء أكريليك بتصميم راقي مع كتابة ذهبية أنيقة، يجمع بين الجودة العالية والمظهر الاحترافي المميز.</p>
+                    <div class="product-specs">
+                        <span class="spec-tag">تصميم فاخر</span>
+                        <span class="spec-tag">ذهبي</span>
+                        <span class="spec-tag">احترافي</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card reveal">
+                <div class="product-card-image">
+                    <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600" alt="فرش رسم احترافية"
+                         onerror="this.parentElement.innerHTML='<div style=&quot;width:100%;height:100%;background:linear-gradient(135deg,%23111,%23444);display:flex;align-items:center;justify-content:center;font-size:4rem&quot;>🖌️</div>'">
+                    <div class="product-card-overlay"></div>
+                    <div class="product-tag">مجموعة فرش</div>
+                </div>
+                <div class="product-card-body">
+                    <div class="product-category">فرش رسم</div>
+                    <h3>مجموعة فرش Paul Rubens</h3>
+                    <p>مجموعة متكاملة من فرش الرسم الاحترافية بأنواع وأحجام مختلفة، مصممة لتلبية جميع احتياجات الفنان.</p>
+                    <div class="product-specs">
+                        <span class="spec-tag">11 فرشاة</span>
+                        <span class="spec-tag">أنواع متعددة</span>
+                        <span class="spec-tag">Paul Rubens</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card reveal">
+                <div class="product-card-image">
+                    <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600" alt="أكريليك تركواز"
+                         onerror="this.parentElement.innerHTML='<div style=&quot;width:100%;height:100%;background:linear-gradient(135deg,%23001a1a,%2300d4ff);display:flex;align-items:center;justify-content:center;font-size:4rem&quot;>💎</div>'">
+                    <div class="product-card-overlay"></div>
+                    <div class="product-tag">جديد</div>
+                </div>
+                <div class="product-card-body">
+                    <div class="product-category">ألوان مميزة</div>
+                    <h3>أكريليك تركواز متدرج</h3>
+                    <p>لون أكريليك فريد بتدرج لوني رائع من الأزرق الداكن إلى التركواز الفاتح، يضفي لمسة إبداعية على أعمالك الفنية.</p>
+                    <div class="product-specs">
+                        <span class="spec-tag">تركواز</span>
+                        <span class="spec-tag">تدرج لوني</span>
+                        <span class="spec-tag">فريد</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card reveal">
+                <div class="product-card-image">
+                    <img src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=600" alt="مجموعة متكاملة"
+                         onerror="this.parentElement.innerHTML='<div style=&quot;width:100%;height:100%;background:linear-gradient(135deg,%23222,%23d4af37);display:flex;align-items:center;justify-content:center;font-size:4rem&quot;></div>'">
+                    <div class="product-card-overlay"></div>
+                    <div class="product-tag">الأكثر مبيعاً</div>
+                </div>
+                <div class="product-card-body">
+                    <div class="product-category">مجموعة شاملة</div>
+                    <h3>طقم الفنان المتكامل</h3>
+                    <p>طقم شامل يجمع بين ألوان الأكريليك المتعددة وفرش الرسم الاحترافية في مجموعة واحدة مثالية لكل فنان.</p>
+                    <div class="product-specs">
+                        <span class="spec-tag">ألوان + فرش</span>
+                        <span class="spec-tag">طقم كامل</span>
+                        <span class="spec-tag">هدية مثالية</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY SECTION -->
+    <section class="gallery-section" id="gallery">
+        <div class="section-header reveal" style="padding: 0 60px;">
+            <div class="section-label">معرض الصور</div>
+            <h2 class="section-title">لمحة عن <span class="highlight">منتجاتنا</span></h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item reveal" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1596548438137-d51ea5c83ca5?w=800" alt="مجموعة الألوان">
+                <div class="gallery-item-overlay">
+                    <span>مجموعة ألوان أكريليك المتعددة</span>
+                </div>
+            </div>
+            <div class="gallery-item reveal" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600" alt="أكريليك أسود">
+                <div class="gallery-item-overlay">
+                    <span>Paul Rubens - أسود</span>
+                </div>
+            </div>
+            <div class="gallery-item reveal" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=600" alt="أكريليك فاخر">
+                <div class="gallery-item-overlay">
+                    <span>تصميم أنيق وفاخر</span>
+                </div>
+            </div>
+            <div class="gallery-item reveal" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600" alt="فرش رسم">
+                <div class="gallery-item-overlay">
+                    <span>فرش Paul Rubens الاحترافية</span>
+                </div>
+            </div>
+            <div class="gallery-item reveal" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600" alt="أكريليك تركواز">
+                <div class="gallery-item-overlay">
+                    <span>لون تركواز متدرج فريد</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATEGORIES SECTION -->
+    <section class="section categories-section" id="categories">
+        <div class="section-header reveal">
+            <div class="section-label">تصفح حسب</div>
+            <h2 class="section-title">أقسام <span class="highlight">المتجر</span></h2>
+            <div class="divider"></div>
+            <p class="section-desc">اختر القسم المناسب لاحتياجاتك الفنية</p>
+        </div>
+
+        <div class="categories-grid">
+            <div class="category-card reveal">
+                <div class="category-icon">🎨</div>
+                <h3>ألوان أكريليك</h3>
+                <p>مجموعة واسعة من ألوان الأكريليك بجودات مختلفة تناسب جميع المستويات الفنية</p>
+            </div>
+            <div class="category-card reveal">
+                <div class="category-icon">🖌️</div>
+                <h3>فرش الرسم</h3>
+                <p>فرش احترافية بأنواع وأحجام متعددة مصنوعة من أجود الخامات الطبيعية والاصطناعية</p>
+            </div>
+            <div class="category-card reveal">
+                <div class="category-icon">🖼️</div>
+                <h3>مستلزمات فنية</h3>
+                <p>كل ما يحتاجه الفنان من أدوات ومستلزمات لإبداع أعمال فنية متميزة</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS SECTION -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item reveal">
+                <div class="stat-number" data-target="500">0</div>
+                <div class="stat-label">منتج متوفر</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number" data-target="50">0</div>
+                <div class="stat-label">علامة تجارية</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number" data-target="10000">0</div>
+                <div class="stat-label">فنان سعيد</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number" data-target="99">0</div>
+                <div class="stat-label">% رضا العملاء</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section testimonials-section">
+        <div class="section-header reveal">
+            <div class="section-label">آراء العملاء</div>
+            <h2 class="section-title">ماذا يقول <span class="highlight">فنانونا</span></h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card reveal">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"جودة الألوان مذهلة! ألوان زاهية وثابتة، والفرش ممتازة جداً. أنصح بها كل فنان محترف."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">أ</div>
+                    <div>
+                        <div class="testimonial-name">أحمد محمد</div>
+                        <div class="testimonial-role">فنان تشكيلي</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card reveal">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"مجموعة Paul Rubens غيرت تجربتي في الرسم تماماً. الجودة احترافية والأسعار مناسبة جداً."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">س</div>
+                    <div>
+                        <div class="testimonial-name">سارة العلي</div>
+                        <div class="testimonial-role">مصممة جرافيك</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card reveal">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"أفضل متجر لأدوات الرسم. التغليف أنيق والمنتجات أصلية 100%. تجربة شراء رائعة!"</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">خ</div>
+                    <div>
+                        <div class="testimonial-name">خالد الحربي</div>
+                        <div class="testimonial-role">رسام محترف</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="cta-section" id="contact">
+        <div class="cta-content reveal">
+            <h2>ابدأ رحلتك <span style="color: var(--gold);">الإبداعية</span> اليوم</h2>
+            <p>انضم إلى آلاف الفنانين الذين يثقون بمنتجاتنا واحصل على أفضل أدوات الرسم الاحترافية</p>
+            <a href="#products" class="btn-primary">تصفح المنتجات الآن</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="logo">ART<span>STUDIO</span></a>
+                <p>نقدم أفضل أدوات ومستلزمات الرسم بأعلى جودة وأسعار مناسبة. نؤمن بأن كل فنان يستحق أدوات تليق بإبداعه.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">𝕏</a>
+                    <a href="#" class="social-link">IG</a>
+                    <a href="#" class="social-link">FB</a>
+                    <a href="#" class="social-link">YT</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>روابط سريعة</h4>
+                <ul>
+                    <li><a href="#home">الرئيسية</a></li>
+                    <li><a href="#products">المنتجات</a></li>
+                    <li><a href="#gallery">المعرض</a></li>
+                    <li><a href="#categories">الأقسام</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>الأقسام</h4>
+                <ul>
+                    <li><a href="#">ألوان أكريليك</a></li>
+                    <li><a href="#">فرش الرسم</a></li>
+                    <li><a href="#">ألوان مائية</a></li>
+                    <li><a href="#">مستلزمات فنية</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>تواصل معنا</h4>
+                <ul>
+                    <li><a href="#">info@artstudio.com</a></li>
+                    <li><a href="#">+966 50 000 0000</a></li>
+                    <li><a href="#">الرياض، السعودية</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 ArtStudio. جميع الحقوق محفوظة. صُنع بـ ❤️ للفنانين</p>
+        </div>
+    </footer>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+        <img src="" alt="Preview" id="lightboxImg">
+    </div>
+
+    <!-- BACK TO TOP -->
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+    <script>
+        // ===== LOADER =====
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1500);
+        });
+
+        // ===== PARTICLES =====
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 6 + 's';
+            particle.style.animationDuration = (4 + Math.random() * 4) + 's';
+            particle.style.width = (2 + Math.random() * 4) + 'px';
+            particle.style.height = particle.style.width;
+            particlesContainer.appendChild(particle);
+        }
+
+        // ===== NAVBAR SCROLL =====
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            const backToTop = document.getElementById('backToTop');
+            
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // ===== MOBILE MENU =====
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Close menu on link click
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+
+        // ===== SCROLL REVEAL =====
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('active');
+                    }, index * 100);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ===== COUNTER ANIMATION =====
+        const statNumbers = document.querySelectorAll('.stat-number');
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = parseInt(entry.target.getAttribute('data-target'));
+                    animateCounter(entry.target, target);
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statNumbers.forEach(num => counterObserver.observe(num));
+
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 60;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target.toLocaleString() + '+';
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current).toLocaleString();
+                }
+            }, 30);
+        }
+
+        // ===== LIGHTBOX =====
+        function openLightbox(element) {
+            const img = element.querySelector('img');
+            document.getElementById('lightboxImg').src = img.src;
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ===== PARALLAX EFFECT ON HERO =====
+        window.addEventListener('scroll', () => {
+            const hero = document.querySelector('.hero-content');
+            const scrolled = window.scrollY;
+            if (scrolled < window.innerHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+                hero.style.opacity = 1 - (scrolled / window.innerHeight);
+            }
+        });
+    </script>
+</body>
+</html> 
